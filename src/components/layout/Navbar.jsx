@@ -5,10 +5,16 @@ import { personalInfo } from '../../data/info';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showLogo, setShowLogo] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      setShowLogo(window.scrollY > window.innerHeight - 100);
+    };
+    
+    handleScroll(); // Set initial state based on current scroll position
     window.addEventListener('scroll', handleScroll);
     
     return () => window.removeEventListener('scroll', handleScroll);
@@ -19,7 +25,7 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full max-w-[1400px] left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? 'glass-panel py-3' : 'bg-transparent py-5'}`}>
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-        <Link to="home" smooth={true} duration={500} className="flex items-center gap-3 cursor-pointer">
+        <Link to="home" smooth={true} duration={500} className={`flex items-center gap-3 cursor-pointer transition-opacity duration-300 ${showLogo ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <img src="/image/Sreeraj_april_2026.png" alt="Profile" className="w-10 h-10 rounded-full object-cover border border-primary-500/50 shadow-sm" />
           <span className="text-2xl font-bold gradient-text">SBS.</span>
         </Link>

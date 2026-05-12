@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
 import About from './components/sections/About';
@@ -16,8 +17,13 @@ import { animateScroll as scroll } from 'react-scroll';
 function App() {
   const [showScroll, setShowScroll] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+
     const handleScroll = () => {
       // Progress bar
       const totalScroll = document.documentElement.scrollTop;
@@ -34,7 +40,10 @@ function App() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [showScroll]);
 
   const scrollToTop = () => {
@@ -42,9 +51,10 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen">
-      <RainBackground />
-      <Cursor />
+    <MotionConfig reducedMotion={isMobile ? "always" : "user"}>
+      <div className="relative min-h-screen">
+        {!isMobile && <RainBackground />}
+        {!isMobile && <Cursor />}
 
       {/* Elegant HUD Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-900 z-[100] border-b border-white/5">
@@ -85,6 +95,7 @@ function App() {
         <ArrowUp size={24} />
       </button>
     </div>
+    </MotionConfig>
   );
 }
 

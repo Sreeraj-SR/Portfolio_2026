@@ -12,6 +12,9 @@ const Hero = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-20">
           {/* Text Content */}
           <div className="flex-1 max-w-3xl">
+            <div className="block lg:hidden mb-8 p-3 bg-primary-500/10 border border-primary-500/20 rounded-lg text-primary-300 text-sm font-medium text-center shadow-lg shadow-primary-500/5 backdrop-blur-sm">
+              View portfolio on laptops to see animations
+            </div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
