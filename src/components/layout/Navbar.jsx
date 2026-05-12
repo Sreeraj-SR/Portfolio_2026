@@ -1,36 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
-import { Menu, X, Moon, Sun, Download } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 import { personalInfo } from '../../data/info';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     
-    // Theme check
-    if (localStorage.theme === 'light') {
-      setDarkMode(false);
-      document.documentElement.classList.remove('dark');
-    }
-    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    if (darkMode) {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-    }
-  };
 
   const navLinks = ['Home', 'About', 'Skills', 'Experience', 'Projects', 'Education', 'Contact'];
 
@@ -61,9 +43,6 @@ const Navbar = () => {
           </ul>
           
           <div className="flex items-center space-x-4">
-            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
             <a href="/resume/Sreeraj_CV.pdf" download="Sreeraj_CV.pdf" className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-lg shadow-primary-500/30 card-hover">
               <Download size={16} /> Resume
             </a>
@@ -92,11 +71,6 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-            <li>
-              <button onClick={toggleTheme} className="flex items-center gap-2 mt-2">
-                {darkMode ? <Sun size={18} /> : <Moon size={18} />} Theme
-              </button>
-            </li>
           </ul>
         </div>
       )}
